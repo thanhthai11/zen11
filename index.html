@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thiền 432Hz - Tĩnh tâm mỗi ngày</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #a8edea, #fed6e3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #333;
+      text-align: center;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.9);
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    input[type=range] {
+      width: 100%;
+    }
+
+    button {
+      background-color: #3dd6a6;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1rem;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 2rem;
+    }
+
+    .countdown {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌿 Thiền 432Hz</h1>
+    <p>Chọn thời lượng thiền và bắt đầu hành trình tĩnh lặng</p>
+
+    <label>⏱️ Thời lượng: <span id="durationValue">10</span> phút</label>
+    <input type="range" id="duration" min="1" max="60" value="10" oninput="updateDuration(this.value)" />
+
+    <br />
+    <button onclick="startMeditation()">▶️ Bắt đầu Thiền</button>
+    <div class="countdown" id="countdownText"></div>
+
+    <audio id="meditationAudio" controls>
+      <source src="meditation_432hz.mp3" type="audio/mp3" />
+      Trình duyệt của bạn không hỗ trợ phát âm thanh.
+    </audio>
+  </div>
+
+  <script>
+    const audio = document.getElementById("meditationAudio");
+    const countdown = document.getElementById("countdownText");
+    let timer;
+
+    function updateDuration(val) {
+      document.getElementById("durationValue").innerText = val;
+    }
+
+    function startMeditation() {
+      const minutes = parseInt(document.getElementById("duration").value);
+      const millis = minutes * 60 * 1000;
+
+      clearTimeout(timer);
+      audio.currentTime = 0;
+      audio.play();
+
+      countdown.innerText = `Âm thanh sẽ tự dừng sau ${minutes} phút.`;
+
+      timer = setTimeout(() => {
+        audio.pause();
+        audio.currentTime = 0;
+        countdown.innerText = "⏳ Hết thời gian thiền bạn đã chọn.";
+      }, millis);
+    }
+  </script>
+</body>
+</html>
